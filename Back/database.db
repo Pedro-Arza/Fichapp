@@ -1,0 +1,263 @@
+-- Crear base de datos
+DROP DATABASE IF EXISTS fichapp;
+CREATE DATABASE fichapp;
+USE fichapp;
+
+USE fichapp;
+
+-- =====================================================
+-- TABLA: Departamentos
+-- =====================================================
+CREATE TABLE Departamentos (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    responsable_id CHAR(36) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_nombre (nombre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================
+-- TABLA: Turnos
+-- =====================================================
+CREATE TABLE Turnos (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    nombre VARCHAR(100) NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fin TIME NOT NULL,
+    horas_esperadas DECIMAL(5,2) NOT NULL,
+    dias_semana JSON COMMENT 'Array de días: ["lunes", "martes", ...]',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_nombre (nombre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================
+-- TABLA: Empleados
+-- =====================================================
+CREATE TABLE Empleados (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    nombre_completo VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    foto_url TEXT,
+    departamento_id CHAR(36),
+    turno_id CHAR(36),
+    rol VARCHAR(100),
+    fecha_ingreso DATE NOT NULL,
+    estado ENUM('activo', 'inactivo', 'suspendido') DEFAULT 'activo',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (departamento_id) REFERENCES Departamentos(id) ON DELETE SET NULL,
+    FOREIGN KEY (turno_id) REFERENCES Turnos(id) ON DELETE SET NULL,
+    
+    INDEX idx_email (email),
+    INDEX idx_estado (estado),
+    INDEX idx_departamento (departamento_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Agregar foreign key de responsable después de crear Empleados
+ALTER TABLE Departamentos 
+ADD FOREIGN KEY (responsable_id) REFERENCES Empleados(id) ON DELETE SET NULL;
+
+-- =====================================================
+-- TABLA: Fichajes
+-- =====================================================
+CREATE TABLE Fichajes (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    empleado_id CHAR(36) NOT NULL,
+    tipo ENUM(
+        'entrada', 
+        'salida_comida', 
+        'vuelta_comida', 
+        'inicio_descanso', 
+        'fin_descanso', 
+        'salida'
+    ) NOT NULL,
+    fecha_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ubicacion VARCHAR(255) COMMENT 'Coordenadas GPS o nombre del lugar',
+    notas TEXT,
+    ip_address VARCHAR(45),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (empleado_id) REFERENCES Empleados(id) ON DELETE CASCADE,
+    
+    INDEX idx_empleado_fecha (empleado_id, fecha_hora),
+    INDEX idx_tipo (tipo),
+    INDEX idx_fecha (fecha_hora)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================
+-- TABLA: Ausencias
+-- =====================================================
+CREATE TABLE Ausencias (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    empleado_id CHAR(36) NOT NULL,
+    tipo ENUM(
+        'vacaciones',
+        'baja_medica',
+        'permiso',
+        'ausencia_justificada',
+        'ausencia_injustificada',
+        'teletrabajo'
+    ) NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    motivo TEXT,
+    estado ENUM('pendiente', 'aprobada', 'rechazada') DEFAULT 'pendiente',
+    aprobado_por CHAR(36) NULL,
+    fecha_aprobacion DATETIME NULL,
+    notas_aprobacion TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (empleado_id) REFERENCES Empleados(id) ON DELETE CASCADE,
+    FOREIGN KEY (aprobado_por) REFERENCES Empleados(id) ON DELETE SET NULL,
+    
+    INDEX idx_empleado_fechas (empleado_id, fecha_inicio, fecha_fin),
+    INDEX idx_estado (estado),
+    INDEX idx_tipo (tipo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================
+-- VISTA: Resumen de horas trabajadas por día
+-- =====================================================
+CREATE OR REPLACE VIEW Vista_Horas_Diarias AS
+SELECT 
+    e.id as empleado_id,
+    e.nombre_completo,
+    DATE(f.fecha_hora) as fecha,
+    COUNT(*) as total_fichajes,
+    MIN(CASE WHEN f.tipo = 'entrada' THEN f.fecha_hora END) as primera_entrada,
+    MAX(CASE WHEN f.tipo = 'salida' THEN f.fecha_hora END) as ultima_salida
+FROM Empleados e
+LEFT JOIN Fichajes f ON e.id = f.empleado_id
+GROUP BY e.id, e.nombre_completo, DATE(f.fecha_hora);
+
+-- =====================================================
+-- DATOS DE EJEMPLO
+-- =====================================================
+
+-- Departamentos
+INSERT INTO Departamentos (id, nombre, descripcion) VALUES
+('d1000000-0000-0000-0000-000000000001', 'Tecnología', 'Departamento de desarrollo y sistemas'),
+('d2000000-0000-0000-0000-000000000002', 'Recursos Humanos', 'Gestión de personal y talento'),
+('d3000000-0000-0000-0000-000000000003', 'Ventas', 'Equipo comercial y atención al cliente'),
+('d4000000-0000-0000-0000-000000000004', 'Administración', 'Contabilidad y finanzas');
+
+-- Turnos
+INSERT INTO Turnos (id, nombre, hora_inicio, hora_fin, horas_esperadas, dias_semana) VALUES
+('t1000000-0000-0000-0000-000000000001', 'Turno Mañana', '09:00:00', '17:00:00', 8.00, 
+ '["lunes", "martes", "miércoles", "jueves", "viernes"]'),
+('t2000000-0000-0000-0000-000000000002', 'Turno Tarde', '14:00:00', '22:00:00', 8.00, 
+ '["lunes", "martes", "miércoles", "jueves", "viernes"]'),
+('t3000000-0000-0000-0000-000000000003', 'Turno Partido', '09:00:00', '18:00:00', 8.00, 
+ '["lunes", "martes", "miércoles", "jueves", "viernes"]'),
+('t4000000-0000-0000-0000-000000000004', 'Turno Flexible', '08:00:00', '18:00:00', 8.00, 
+ '["lunes", "martes", "miércoles", "jueves", "viernes"]');
+
+-- Empleados (password: "123456" en hash MD5 simple para ejemplo)
+INSERT INTO Empleados (id, nombre_completo, email, password_hash, departamento_id, turno_id, rol, fecha_ingreso, estado, foto_url) VALUES
+('e1000000-0000-0000-0000-000000000001', 'Ana García López', 'ana.garcia@empresa.com', 
+ MD5('123456'), 'd1000000-0000-0000-0000-000000000001', 't1000000-0000-0000-0000-000000000001', 
+ 'Desarrolladora Senior', '2024-01-15', 'activo',
+ 'https://images.unsplash.com/photo-1655249493799-9cee4fe983bb?w=400'),
+ 
+('e2000000-0000-0000-0000-000000000002', 'Carlos Martínez Ruiz', 'carlos.martinez@empresa.com', 
+ MD5('123456'), 'd1000000-0000-0000-0000-000000000001', 't1000000-0000-0000-0000-000000000001', 
+ 'Desarrollador Junior', '2024-03-01', 'activo',
+ 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'),
+ 
+('e3000000-0000-0000-0000-000000000003', 'María Sánchez Torres', 'maria.sanchez@empresa.com', 
+ MD5('123456'), 'd2000000-0000-0000-0000-000000000002', 't1000000-0000-0000-0000-000000000001', 
+ 'Directora de RRHH', '2023-06-10', 'activo',
+ 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400');
+
+-- Actualizar responsables de departamentos
+UPDATE Departamentos SET responsable_id = 'e1000000-0000-0000-0000-000000000001' WHERE id = 'd1000000-0000-0000-0000-000000000001';
+UPDATE Departamentos SET responsable_id = 'e3000000-0000-0000-0000-000000000003' WHERE id = 'd2000000-0000-0000-0000-000000000002';
+UPDATE Departamentos SET responsable_id = 'e4000000-0000-0000-0000-000000000004' WHERE id = 'd3000000-0000-0000-0000-000000000003';
+UPDATE Departamentos SET responsable_id = 'e5000000-0000-0000-0000-000000000005' WHERE id = 'd4000000-0000-0000-0000-000000000004';
+
+-- Fichajes de ejemplo (jornada de Ana García - hoy)
+INSERT INTO Fichajes (empleado_id, tipo, fecha_hora, ubicacion) VALUES
+('e1000000-0000-0000-0000-000000000001', 'entrada', CONCAT(CURDATE(), ' 09:05:00'), 'Oficina Central'),
+('e1000000-0000-0000-0000-000000000001', 'salida_comida', CONCAT(CURDATE(), ' 14:00:00'), 'Oficina Central'),
+('e1000000-0000-0000-0000-000000000001', 'vuelta_comida', CONCAT(CURDATE(), ' 15:00:00'), 'Oficina Central');
+
+-- Fichajes de ejemplo (jornada completa de Carlos - ayer)
+INSERT INTO Fichajes (empleado_id, tipo, fecha_hora, ubicacion) VALUES
+('e2000000-0000-0000-0000-000000000002', 'entrada', DATE_SUB(CONCAT(CURDATE(), ' 09:00:00'), INTERVAL 1 DAY), 'Oficina Central'),
+('e2000000-0000-0000-0000-000000000002', 'salida_comida', DATE_SUB(CONCAT(CURDATE(), ' 13:30:00'), INTERVAL 1 DAY), 'Oficina Central'),
+('e2000000-0000-0000-0000-000000000002', 'vuelta_comida', DATE_SUB(CONCAT(CURDATE(), ' 14:30:00'), INTERVAL 1 DAY), 'Oficina Central'),
+('e2000000-0000-0000-0000-000000000002', 'salida', DATE_SUB(CONCAT(CURDATE(), ' 17:15:00'), INTERVAL 1 DAY), 'Oficina Central');
+
+-- Ausencias de ejemplo
+INSERT INTO Ausencias (empleado_id, tipo, fecha_inicio, fecha_fin, motivo, estado, aprobado_por, fecha_aprobacion) VALUES
+('e1000000-0000-0000-0000-000000000001', 'vacaciones', '2026-04-01', '2026-04-07', 
+ 'Vacaciones de Semana Santa', 'aprobada', 'e3000000-0000-0000-0000-000000000003', 
+ '2026-03-10 10:30:00'),
+ 
+('e2000000-0000-0000-0000-000000000002', 'permiso', '2026-03-20', '2026-03-20', 
+ 'Asunto personal', 'pendiente', NULL, NULL),
+ 
+('e4000000-0000-0000-0000-000000000004', 'baja_medica', '2026-03-01', '2026-03-05', 
+ 'Gripe', 'aprobada', 'e3000000-0000-0000-0000-000000000003', 
+ '2026-03-01 14:00:00');
+
+-- =====================================================
+-- PROCEDIMIENTOS ALMACENADOS ÚTILES
+-- =====================================================
+
+-- Calcular horas trabajadas en un día para un empleado
+DELIMITER //
+CREATE PROCEDURE Calcular_Horas_Dia(
+    IN p_empleado_id CHAR(36),
+    IN p_fecha DATE,
+    OUT p_horas DECIMAL(5,2)
+)
+BEGIN
+    DECLARE v_entrada DATETIME;
+    DECLARE v_salida DATETIME;
+    DECLARE v_tiempo_comida INT DEFAULT 0;
+    DECLARE v_tiempo_descansos INT DEFAULT 0;
+    
+    -- Primera entrada del día
+    SELECT MIN(fecha_hora) INTO v_entrada
+    FROM Fichajes
+    WHERE empleado_id = p_empleado_id 
+    AND DATE(fecha_hora) = p_fecha
+    AND tipo = 'entrada';
+    
+    -- Última salida del día
+    SELECT MAX(fecha_hora) INTO v_salida
+    FROM Fichajes
+    WHERE empleado_id = p_empleado_id 
+    AND DATE(fecha_hora) = p_fecha
+    AND tipo = 'salida';
+    
+    -- Calcular tiempo de comida
+    SELECT COALESCE(SUM(TIMESTAMPDIFF(MINUTE, 
+        (SELECT fecha_hora FROM Fichajes f2 
+         WHERE f2.empleado_id = p_empleado_id 
+         AND f2.tipo = 'salida_comida' 
+         AND DATE(f2.fecha_hora) = p_fecha 
+         AND f2.fecha_hora < f1.fecha_hora 
+         ORDER BY f2.fecha_hora DESC LIMIT 1),
+        f1.fecha_hora
+    )), 0) INTO v_tiempo_comida
+    FROM Fichajes f1
+    WHERE f1.empleado_id = p_empleado_id 
+    AND f1.tipo = 'vuelta_comida'
+    AND DATE(f1.fecha_hora) = p_fecha;
+    
+    -- Calcular horas
+    IF v_entrada IS NOT NULL AND v_salida IS NOT NULL THEN
+        SET p_horas = (TIMESTAMPDIFF(MINUTE, v_entrada, v_salida) - v_tiempo_comida - v_tiempo_descansos) / 60.0;
+    ELSE
+        SET p_horas = 0;
+    END IF;
+END//
+DELIMITER ;

@@ -2,6 +2,12 @@ import { Request, Response } from 'express';
 import FichajeService from '../service/fichajes.service';
 
 class FichajeController {
+    eliminar(arg0: string, eliminar: any) {
+        throw new Error('Method not implemented.');
+    }
+    actualizar(arg0: string, actualizar: any) {
+        throw new Error('Method not implemented.');
+    }
 
     async listarTodos(req: Request, res: Response) {
         try {
