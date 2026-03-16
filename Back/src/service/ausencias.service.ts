@@ -1,3 +1,5 @@
+import Ausencia from '../models/ausencias.model';
+
 class AusenciaService {
 
     // Empleado: solicitar ausencia

@@ -57,4 +57,4 @@ const Ausencia = sequelize.define('Ausencias', {
     updatedAt: 'updated_at'
 });
 
-module.exports = Ausencia;
+export default Ausencia;
