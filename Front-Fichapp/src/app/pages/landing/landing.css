@@ -1,0 +1,164 @@
+:host { display: block; }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.9rem 2.5rem;
+  background: white;
+  border-bottom: 1px solid #dde8f5;
+  box-shadow: 0 1px 12px rgba(10,45,110,0.08);
+}
+
+.navbar-brand { display: flex; align-items: center; gap: 0.75rem; }
+
+.brand-icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  color: #dc2626;
+}
+.brand-icon svg { width: 28px; height: 28px; }
+.brand-icon.small { width: 20px; height: 20px; color: #dc2626; }
+.brand-icon.small svg { width: 16px; height: 16px; }
+
+.brand-text { display: flex; flex-direction: column; gap: 0; }
+.brand-name { font-weight: 800; font-size: 1.05rem; color: #0a2d6e; letter-spacing: -0.02em; }
+.brand-name span { color: #0891b2; }
+.brand-sub { font-size: 0.68rem; color: #8fa3c0; font-weight: 500; letter-spacing: 0.02em; }
+
+.btn-nav {
+  background: #0a2d6e; color: white; border: none;
+  border-radius: 10px; padding: 0.55rem 1.4rem;
+  font-size: 0.875rem; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+.btn-nav:hover { background: #0c3580; transform: translateY(-1px); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  background-image:
+    linear-gradient(135deg, rgba(10, 45, 110, 0.95) 0%, rgba(10, 45, 110, 0.4) 100%),
+    url('/assets/images/landing-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 8rem 1.5rem 5rem;
+  position: relative; overflow: hidden;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.1); color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 999px; padding: 0.35rem 1rem;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 2rem;
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 900; color: #fff;
+  line-height: 1.1; letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+  max-width: 900px;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.hero-blue { color: #00d4ff; text-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+
+.hero-subtitle {
+  font-size: 1.15rem; color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6; margin-bottom: 3rem;
+  max-width: 640px;
+  font-weight: 500;
+}
+
+.hero-actions { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+
+.btn-primary {
+  background: #00d4ff; color: #0a2d6e; border: none;
+  border-radius: 12px; padding: 1rem 2.8rem;
+  font-size: 1.1rem; font-weight: 800; cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+}
+.btn-primary:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5); }
+
+.hero-secure {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); font-weight: 500;
+}
+.hero-secure svg { color: #00ffaa; filter: drop-shadow(0 0 5px rgba(0, 255, 170, 0.4)); }
+
+/* ===== STATS STRIP ===== */
+.stats-strip {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 0; padding: 2rem 2rem;
+  background: white; border-top: 1px solid #dde8f5; border-bottom: 1px solid #dde8f5;
+}
+
+.stat-item { display: flex; flex-direction: column; align-items: center; padding: 0 2.5rem; }
+.stat-num { font-size: 1.75rem; font-weight: 900; color: #0a2d6e; letter-spacing: -0.04em; }
+.stat-label { font-size: 0.78rem; color: #8fa3c0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-divider { width: 1px; height: 40px; background: #dde8f5; }
+
+/* ===== FEATURES ===== */
+.features {
+  padding: 5rem 2rem 6rem;
+  background: linear-gradient(180deg, #f0f6ff 0%, #e8f0fb 100%);
+}
+
+.features-header { text-align: center; margin-bottom: 3rem; }
+.features-title { font-size: 2rem; font-weight: 800; color: #0d1f3c; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.features-sub { color: #4a6087; font-size: 0.95rem; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem; max-width: 1000px; margin: 0 auto;
+}
+
+.feature-card {
+  background: white; border-radius: 20px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 4px 20px rgba(10,45,110,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  transition: transform 0.25s, box-shadow 0.25s;
+  border: 1px solid #dde8f5;
+  animation: fadeUp 0.5s ease both;
+}
+.feature-card:nth-child(2) { animation-delay: 0.08s; }
+.feature-card:nth-child(3) { animation-delay: 0.16s; }
+.feature-card:nth-child(4) { animation-delay: 0.24s; }
+.feature-card:hover { transform: translateY(-5px); box-shadow: 0 14px 35px rgba(10,45,110,0.12); }
+
+.feature-icon {
+  width: 52px; height: 52px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;
+}
+.feature-icon svg { width: 26px; height: 26px; }
+
+.icon-blue  { background: rgba(10,45,110,0.1);  color: #0a2d6e; }
+.icon-teal  { background: rgba(8,145,178,0.1);  color: #0891b2; }
+.icon-green { background: rgba(5,150,105,0.1);  color: #059669; }
+.icon-red   { background: rgba(220,38,38,0.1);  color: #dc2626; }
+
+.feature-title { font-size: 1rem; font-weight: 700; color: #0d1f3c; margin-bottom: 0.5rem; }
+.feature-desc  { font-size: 0.87rem; color: #4a6087; line-height: 1.65; }
+
+/* ===== FOOTER ===== */
+.landing-footer {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 1.5rem 2rem; background: #0a2d6e;
+  font-size: 0.78rem; color: rgba(255,255,255,0.5); font-weight: 500;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

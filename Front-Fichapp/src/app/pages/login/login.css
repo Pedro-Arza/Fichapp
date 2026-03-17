@@ -1,0 +1,140 @@
+:host { display: block; height: 100%; }
+
+.login-page {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background-image:
+    linear-gradient(135deg, rgba(10, 45, 110, 0.9) 0%, rgba(10, 45, 110, 0.8) 100%),
+    url('/assets/images/medical-premium-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 1.5rem;
+  position: relative; overflow: hidden;
+}
+
+/* Decorative background elements */
+.login-page::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(220,38,38,0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 40%);
+}
+
+/* Decorative cross pattern */
+.login-page::after {
+  content: '+';
+  position: absolute; top: 10%; right: 8%;
+  font-size: 10rem; font-weight: 900; color: rgba(255,255,255,0.04);
+  line-height: 1; pointer-events: none;
+}
+
+.login-card {
+  position: relative; z-index: 1;
+  background: white;
+  border-radius: 24px; padding: 2.75rem 2.5rem;
+  width: 100%; max-width: 430px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.35);
+  animation: fadeUp 0.45s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* LOGO */
+.logo-area { text-align: center; margin-bottom: 2rem; }
+
+.logo-cross {
+  width: 68px; height: 68px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border-radius: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 24px rgba(220,38,38,0.4);
+}
+.logo-cross svg { width: 36px; height: 36px; }
+
+.logo-name {
+  font-size: 1.85rem; font-weight: 900; color: #0a2d6e;
+  letter-spacing: -0.04em; margin: 0;
+}
+.logo-name span { color: #0891b2; }
+.logo-hospital {
+  font-size: 0.8rem; font-weight: 700; color: #0891b2;
+  text-transform: uppercase; letter-spacing: 0.08em; margin: 0.15rem 0;
+}
+.logo-sub {
+  font-size: 0.8rem; color: #8fa3c0; margin: 0;
+}
+
+/* FORM */
+.login-form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.alert-error {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 10px; padding: 0.75rem 1rem;
+  color: #dc2626; font-size: 0.875rem; font-weight: 500;
+  animation: shake 0.3s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.field-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.field-group label {
+  font-size: 0.78rem; font-weight: 700; color: #4a6087;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+.input-wrap { position: relative; }
+.input-icon {
+  position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px; color: #8fa3c0;
+}
+
+.field-group input {
+  width: 100%; background: #f0f6ff; border: 1.5px solid #dde8f5;
+  border-radius: 12px; padding: 0.875rem 1rem 0.875rem 2.6rem;
+  color: #0d1f3c; font-size: 0.95rem; outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+.field-group input::placeholder { color: #b0c4d8; }
+.field-group input:focus {
+  border-color: #0891b2;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(8,145,178,0.12);
+}
+.field-group input:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-login {
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, #0a2d6e, #0c3580);
+  color: white; border: none; border-radius: 12px;
+  padding: 1rem; font-size: 0.975rem; font-weight: 700; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-family: inherit;
+  box-shadow: 0 5px 18px rgba(10,45,110,0.35);
+}
+.btn-login:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 22px rgba(10,45,110,0.42); }
+.btn-login:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.login-footer {
+  margin-top: 1.5rem; text-align: center;
+  font-size: 0.75rem; color: #b0c4d8; line-height: 1.6;
+}
+.login-footer strong { color: #0891b2; }

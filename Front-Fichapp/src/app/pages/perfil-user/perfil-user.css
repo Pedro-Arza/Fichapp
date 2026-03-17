@@ -1,0 +1,198 @@
+.perfil-container {
+  padding: 100px 1.5rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* HERO SECTION */
+.perfil-hero {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(10, 45, 110, 0.06);
+  border: 1px solid #dde8f5;
+  animation: fadeUp 0.5s ease-out;
+}
+
+.avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.perfil-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 32px;
+  object-fit: cover;
+  border: 4px solid #f0f6ff;
+  box-shadow: 0 8px 20px rgba(10, 45, 110, 0.1);
+}
+
+.status-dot {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: 3px solid white;
+}
+.status-dot.activo { background: #10b981; }
+
+.perfil-info { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.perfil-nombre {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0a2d6e;
+  letter-spacing: -0.04em;
+}
+
+.perfil-rol {
+  font-size: 1rem;
+  color: #4a6087;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.perfil-badges {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.badge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-hospital { background: #f0f6ff; color: #0a2d6e; border: 1px solid #dde8f5; }
+.badge-status { background: #f1f5f9; color: #64748b; }
+.badge-status.activo { background: rgba(16,185,129,0.1); color: #059669; }
+
+/* GRID */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.5rem;
+  animation: fadeUp 0.5s ease-out 0.1s both;
+}
+
+.info-card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #dde8f5;
+  box-shadow: 0 4px 15px rgba(10, 45, 110, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  padding: 1.25rem 1.5rem;
+  background: #f8fbff;
+  border-bottom: 1px solid #dde8f5;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.card-header svg { width: 20px; height: 20px; color: #0891b2; }
+.card-header h3 { font-size: 0.95rem; font-weight: 800; color: #0a2d6e; margin: 0; }
+
+.info-body { padding: 1.5rem; flex: 1; }
+
+/* INFO ROWS */
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 1.25rem;
+}
+.info-row:last-child { margin-bottom: 0; }
+
+.info-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #8fa3c0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0d1f3c;
+}
+
+/* HISTORIAL */
+.fichaje-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fichaje-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: #f8fbff;
+  border-radius: 12px;
+  border: 1px solid #f0f6ff;
+}
+
+.f-left { display: flex; align-items: center; gap: 0.75rem; }
+
+.f-dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; }
+.f-dot--entrada { background: #10b981; }
+.f-dot--salida_comida { background: #f97316; }
+.f-dot--vuelta_comida { background: #0ea5e9; }
+.f-dot--inicio_descanso { background: #eab308; }
+.f-dot--fin_descanso { background: #14b8a6; }
+.f-dot--salida { background: #ef4444; }
+
+.f-tipo { font-size: 0.9rem; font-weight: 600; color: #0a2d6e; }
+.f-fecha { font-size: 0.8rem; color: #8fa3c0; font-weight: 500; }
+
+.empty-msg { color: #8fa3c0; text-align: center; padding: 2rem 0; font-size: 0.9rem; }
+
+/* LOADING */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+  gap: 1rem;
+  color: #8fa3c0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(10, 45, 110, 0.1);
+  border-top-color: #0a2d6e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 800px) {
+  .perfil-hero { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+  .perfil-grid { grid-template-columns: 1fr; }
+  .perfil-badges { justify-content: center; }
+}

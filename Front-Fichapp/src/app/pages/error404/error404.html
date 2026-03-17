@@ -1,1 +1,101 @@
-<p>error404 works!</p>
+<!-- Background decorators -->
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ─── Header ─── -->
+<header class="header">
+  <a class="logo" routerLink="/">
+    <div class="logo-icon">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="12" y="2" width="8" height="28" rx="2" fill="currentColor"/>
+        <rect x="2" y="12" width="28" height="8" rx="2" fill="currentColor"/>
+      </svg>
+    </div>
+    <span class="logo-name">Medi<span>Track</span> Hospital</span>
+  </a>
+  <div class="header-badge">SISTEMA DE FICHAJE</div>
+</header>
+
+<!-- ─── Main ─── -->
+<main class="main">
+
+  <!-- ECG animation -->
+  <div class="ecg-wrap">
+    <svg width="340" height="60" viewBox="0 0 340 60" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+      <path class="ecg-line"
+        d="M0 30 L60 30 L75 30 L82 10 L90 50 L96 5 L102 55 L108 20
+           L116 30 L160 30 L175 30 L182 10 L190 50 L196 5 L202 55
+           L208 20 L216 30 L260 30 L275 30 L282 10 L290 50 L296 5
+           L302 55 L308 20 L316 30 L340 30"
+        stroke="var(--teal)" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="ecg-dot" cx="340" cy="30" r="4" fill="var(--teal)"/>
+    </svg>
+  </div>
+
+  <!-- 404 -->
+  <div class="error-code">404</div>
+
+  <!-- Status pill -->
+  <div class="status-pill">
+    <span class="pill-dot"></span>
+    PÁGINA NO ENCONTRADA
+  </div>
+
+  <h1 class="error-title">Esta ruta no existe en el sistema</h1>
+
+  <p class="error-sub">
+    La página que intentas acceder no está disponible o ha sido eliminada.
+    Comprueba la URL o regresa al panel de fichaje.
+  </p>
+
+  <!-- Info card -->
+  <div class="info-card">
+    <div class="info-icon">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="8" r="6"
+                stroke="var(--teal)" stroke-width="1.5"/>
+        <path d="M8 7v4M8 5.5v.5"
+              stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="info-text">
+      <span class="info-label">Código de error · HTTP 404</span>
+      <span class="info-body">
+        Si el problema persiste, contacta con el administrador del sistema
+        de fichaje o llama a soporte técnico.
+      </span>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn btn-primary" (click)="goHome()">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 8h10M3 8l3-3M3 8l3 3"
+              stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Volver al inicio
+    </button>
+
+    <button class="btn btn-ghost" (click)="goPanel()">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="5" height="5" rx="1.5"
+              stroke="currentColor" stroke-width="1.5"/>
+        <rect x="9" y="2" width="5" height="5" rx="1.5"
+              stroke="currentColor" stroke-width="1.5"/>
+        <rect x="2" y="9" width="5" height="5" rx="1.5"
+              stroke="currentColor" stroke-width="1.5"/>
+        <rect x="9" y="9" width="5" height="5" rx="1.5"
+              stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      Panel de fichaje
+    </button>
+  </div>
+
+  <!-- Live timestamp -->
+  <div class="timestamp">{{ timestamp }}</div>
+
+</main>

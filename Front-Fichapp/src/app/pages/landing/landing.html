@@ -1,0 +1,111 @@
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="navbar-brand">
+    <span class="brand-icon">
+      <!-- Cruz médica -->
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="12" y="2" width="8" height="28" rx="2" fill="currentColor"/>
+        <rect x="2" y="12" width="28" height="8" rx="2" fill="currentColor"/>
+      </svg>
+    </span>
+    <div class="brand-text">
+      <span class="brand-name">Medi<span>Track</span></span>
+      <span class="brand-sub">Hospital Universitario</span>
+    </div>
+  </div>
+  <button class="btn-nav" (click)="irALogin()">Iniciar Sesión</button>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Sistema Oficial de Control de Presencia</div>
+  <h1 class="hero-title">
+    Control de guardias<br/>
+    <span class="hero-blue">para profesionales</span><br/>
+    de la salud
+  </h1>
+  <p class="hero-subtitle">
+    Plataforma integral de fichaje para médicos, enfermeros y personal sanitario.<br/>
+    Gestión de guardias, turnos y horas en tiempo real.
+  </p>
+  <div class="hero-actions">
+    <button class="btn-primary" (click)="irALogin()">Acceder al Sistema</button>
+    <div class="hero-secure">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Acceso seguro · GDPR
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <span class="stat-num">+2.400</span>
+    <span class="stat-label">Profesionales</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-num">12</span>
+    <span class="stat-label">Departamentos</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-num">24/7</span>
+    <span class="stat-label">Disponible</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-num">99.9%</span>
+    <span class="stat-label">Uptime</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-header">
+    <h2 class="features-title">Todo lo que necesitas</h2>
+    <p class="features-sub">Diseñado específicamente para el entorno hospitalario</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon icon-blue">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3 class="feature-title">Fichaje de Guardias</h3>
+      <p class="feature-desc">Registra inicio y fin de guardia, pausas, comidas y descansos con un solo toque.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon icon-teal">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3 class="feature-title">Gestión de Plantilla</h3>
+      <p class="feature-desc">Visualiza perfiles médicos, especialidades, departamentos y estado de guardia.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon icon-green">
+        <svg viewBox="0 0 24 24" fill="none"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="17 6 23 6 23 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 class="feature-title">Análisis de Turnos</h3>
+      <p class="feature-desc">Informes automáticos de horas acumuladas, guardias nocturnas y festivos.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon icon-red">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="12" y="2" width="4" height="20" rx="1" fill="currentColor"/><rect x="2" y="10" width="20" height="4" rx="1" fill="currentColor"/></svg>
+      </div>
+      <h3 class="feature-title">Control de Urgencias</h3>
+      <p class="feature-desc">Fichaje especial para guardias de urgencias con alertas y seguimiento en tiempo real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="landing-footer">
+  <span class="brand-icon small">
+    <svg viewBox="0 0 32 32" fill="none"><rect x="12" y="2" width="8" height="28" rx="2" fill="currentColor"/><rect x="2" y="12" width="28" height="8" rx="2" fill="currentColor"/></svg>
+  </span>
+  <span>MediTrack © 2026 · Hospital Universitario · Todos los derechos reservados</span>
+</footer>

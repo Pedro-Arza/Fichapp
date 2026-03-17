@@ -1,1 +1,40 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <a routerLink="/home" class="brand">
+    <div class="brand-icon">
+      <!-- Cruz médica -->
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="12" y="2" width="8" height="28" rx="2" fill="currentColor"/>
+        <rect x="2" y="12" width="28" height="8" rx="2" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">Medi<span>Track</span></span>
+      <span class="brand-sub">Hospital Universitario</span>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a routerLink="/home" class="nav-link">Inicio</a>
+    <a routerLink="/personal" class="nav-link">Personal</a>
+    <a routerLink="/perfil" class="nav-link">Mi Perfil</a>
+  </div>
+
+  <div class="nav-user">
+    <div class="user-info">
+      <img
+        [src]="empleado()?.foto_url || 'https://ui-avatars.com/api/?name=' + (empleado()?.nombre_completo || 'User') + '&background=2a5298&color=fff'"
+        [alt]="empleado()?.nombre_completo"
+        class="user-avatar"
+      />
+      <div class="user-text">
+        <span class="user-name">{{ empleado()?.nombre_completo }}</span>
+        <span class="user-rol">{{ empleado()?.rol }}</span>
+      </div>
+    </div>
+    <button class="btn-logout" (click)="logout()" title="Cerrar sesión">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+      </svg>
+    </button>
+  </div>
+</nav>

@@ -20,7 +20,7 @@ class UsuarioService {
             rol: empleado.getDataValue('rol')
         });
 
-        return { token };
+        return { token, empleado };
     }
 }
 

@@ -1,1 +1,172 @@
-<p>home works!</p>
+<app-navbar></app-navbar>
+
+<div class="home-container">
+  <header class="welcome-section">
+    <h1>Panel de Control · Medi<span>Track</span></h1>
+    <p>Gestión de turnos y registros de guardia · Hospital Universitario</p>
+    <p class="saludo-fecha">{{ ahora() | date:'EEEE, d \'de\' MMMM \'de\' yyyy' : '' : 'es' }}</p>
+  </header>
+
+  <div class="dashboard">
+
+    <!-- ESTADO ACTUAL -->
+    <div class="estado-card">
+      <div class="estado-left">
+        <span class="estado-label">Estado de Guardia</span>
+        <span class="estado-valor">
+          @if (ultimoFichaje()) {
+            @switch (ultimoFichaje()?.tipo) {
+              @case ('entrada')         { En servicio }
+              @case ('salida_comida')   { En pausa médico }
+              @case ('vuelta_comida')   { En servicio }
+              @case ('inicio_descanso') { En descanso }
+              @case ('fin_descanso')    { En servicio }
+              @case ('salida')          { Fuera de servicio }
+              @default                  { En servicio }
+            }
+          } @else {
+            Fuera de servicio
+          }
+        </span>
+      </div>
+      <div class="estado-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.5 7c0-1.1.9-2 2-2s2 .9 2 2M15.5 7c0-1.1.9-2 2-2s2 .9 2 2M4.5 7v3a4 4 0 0 0 4 4h3m4-7v3a4 4 0 0 1-4 4h-3m3 4v3m0-3a3 3 0 1 0-6 0m6 0a3 3 0 1 1-6 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="stats-row">
+      <div class="stat-card stat-blue">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-sub">Servicio Hoy</span>
+          <span class="stat-value">{{ horasHoyFormato() }}</span>
+          <span class="stat-desc">Horas acumuladas hoy</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-teal">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-sub">Semana Actual</span>
+          <span class="stat-value">{{ horasHoyFormato() }}</span>
+          <span class="stat-desc">Horas de guardia (7 días)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESOS RÁPIDOS -->
+    <h2 class="section-title">Panel de Control</h2>
+    <div class="accesos-grid">
+
+      <button class="acceso-card acceso-active" (click)="mostrarModalFichar = true">
+        <div class="acceso-icon icon-teal">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="5" width="2" height="14" rx="1" fill="currentColor"/>
+            <rect x="6" y="11" width="14" height="2" rx="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="acceso-title">Fichar</span>
+        <span class="acceso-desc">Registrar actividad médica</span>
+      </button>
+
+      <a class="acceso-card acceso-active" routerLink="/personal">
+        <div class="acceso-icon icon-blue">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="acceso-title">Directorio Médico</span>
+        <span class="acceso-desc">Personal Sanitario</span>
+      </a>
+
+      <a class="acceso-card acceso-active" routerLink="/error404">
+        <div class="acceso-icon icon-gray">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M7 7h10M7 12h10M7 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="acceso-title">Historial Pacientes</span>
+        <span class="acceso-desc">Registros clínicos</span>
+      </a>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== MODAL FICHAJE ===== -->
+@if (mostrarModalFichar) {
+  <div class="modal-overlay" (click)="cerrarModal($event)">
+    <div class="modal-card">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Registrar Actividad</h3>
+        <button class="modal-close" (click)="mostrarModalFichar = false" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <!-- Timeline del día -->
+      @if (fichajesHoy().length > 0) {
+        <div class="modal-timeline">
+          @for (f of fichajesHoy(); track f.id) {
+            <div class="tl-item">
+              <span class="tl-dot" [class]="'tl-dot--' + f.tipo"></span>
+              <span class="tl-tipo">{{ labelTipo(f.tipo) }}</span>
+              <span class="tl-hora">{{ f.fecha_hora | date:'HH:mm' }}</span>
+            </div>
+          }
+        </div>
+      } @else if (loadingFichajes()) {
+        <p class="tl-empty">Cargando servicios...</p>
+      } @else {
+        <p class="tl-empty">Sin actividad registrada hoy.</p>
+      }
+
+      @if (errorFichaje()) {
+        <div class="modal-error">⚠️ {{ errorFichaje() }}</div>
+      }
+
+      <!-- Banner de guardia completada -->
+      @if (jornadaCompletada()) {
+        <div class="jornada-completa-banner">✅ Guardia finalizada · Puede iniciar un nuevo servicio</div>
+      }
+
+      <!-- Grid de botones de fichaje -->
+      <div class="fichaje-grid">
+        @for (accion of todasLasAcciones; track accion.tipo) {
+          <button
+            [class]="'fichaje-btn fichaje-btn--' + accion.color"
+            [disabled]="!esAccionDisponible(accion.tipo) || registrando()"
+            (click)="ficharTipo(accion.tipo)"
+          >
+            <span class="fichaje-btn-icon" [innerHTML]="accion.svgIcon"></span>
+            <span class="fichaje-btn-label">{{ accion.label }}</span>
+          </button>
+        }
+      </div>
+
+      @if (registrando()) {
+        <div class="registrando-msg">
+          <span class="btn-spinner"></span> Registrando...
+        </div>
+      }
+
+    </div>
+  </div>
+}
