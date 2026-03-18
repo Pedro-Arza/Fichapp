@@ -164,16 +164,24 @@ INSERT INTO Empleados (id, nombre_completo, email, password_hash, departamento_i
  MD5('123456'), 'd1000000-0000-0000-0000-000000000001', 't1000000-0000-0000-0000-000000000001', 
  'Desarrolladora Senior', '2024-01-15', 'activo',
  'https://images.unsplash.com/photo-1655249493799-9cee4fe983bb?w=400'),
- 
+
 ('e2000000-0000-0000-0000-000000000002', 'Carlos Martínez Ruiz', 'carlos.martinez@empresa.com', 
  MD5('123456'), 'd1000000-0000-0000-0000-000000000001', 't1000000-0000-0000-0000-000000000001', 
  'Desarrollador Junior', '2024-03-01', 'activo',
  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'),
- 
+
 ('e3000000-0000-0000-0000-000000000003', 'María Sánchez Torres', 'maria.sanchez@empresa.com', 
  MD5('123456'), 'd2000000-0000-0000-0000-000000000002', 't1000000-0000-0000-0000-000000000001', 
  'Directora de RRHH', '2023-06-10', 'activo',
- 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400');
+ 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'),
+
+('e4000000-0000-0000-0000-000000000004', 'Luis Fernández Gómez', 'luis.fernandez@empresa.com',
+ MD5('123456'), 'd3000000-0000-0000-0000-000000000003', 't1000000-0000-0000-0000-000000000001',
+ 'Director de Ventas', '2023-01-10', 'activo', NULL),
+
+('e5000000-0000-0000-0000-000000000005', 'Sofía Romero Díaz', 'sofia.romero@empresa.com',
+ MD5('123456'), 'd4000000-0000-0000-0000-000000000004', 't1000000-0000-0000-0000-000000000001',
+ 'Directora de Administración', '2022-09-01', 'activo', NULL);
 
 -- Actualizar responsables de departamentos
 UPDATE Departamentos SET responsable_id = 'e1000000-0000-0000-0000-000000000001' WHERE id = 'd1000000-0000-0000-0000-000000000001';

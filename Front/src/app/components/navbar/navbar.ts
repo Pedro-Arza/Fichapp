@@ -14,4 +14,9 @@ export class NavbarComponent {
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
+
+  registrarEntrada() {
+    console.log('Entrada registrada');
+ 
+  }
 }
