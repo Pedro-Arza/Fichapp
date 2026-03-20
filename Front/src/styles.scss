@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html {
+    font-size: 16px;
+    /* Prevent text resize on iOS */
+    -webkit-text-size-adjust: 100%;
+    /* Prevent overscroll bounce */
+    overscroll-behavior: none;
+  }
+  body {
+    @apply font-body bg-surface text-ink;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overscroll-behavior: none;
+  }
+  h1, h2, h3 { @apply font-display font-bold; }
+  ::-webkit-scrollbar { display: none; }
+  * { scrollbar-width: none; }
+}
+
+@layer components {
+
+  /* ── App shell ── */
+  .app-shell {
+    @apply flex flex-col min-h-screen min-h-dvh bg-surface;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── Bottom nav ── */
+  .bottom-nav {
+    @apply fixed bottom-0 left-1/2 -translate-x-1/2 w-full bg-surface-card border-t border-surface-border;
+    max-width: 430px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    z-index: 50;
+  }
+  .nav-btn {
+    @apply flex flex-col items-center justify-center gap-1 py-3 flex-1 text-ink-muted transition-all duration-200;
+    &.active { @apply text-brand; }
+    .nav-icon { @apply text-xl leading-none; }
+    .nav-label { @apply text-[0.6rem] font-semibold uppercase tracking-wider; }
+  }
+
+  /* ── Page header ── */
+  .page-top {
+    @apply sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-surface-border px-5 py-4;
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply bg-surface-card border border-surface-border rounded-3xl shadow-card;
+  }
+  .card-raised {
+    @apply bg-surface-raised border border-surface-border rounded-3xl;
+  }
+
+  /* ── Big fichaje button ── */
+  .fichar-btn {
+    @apply relative flex flex-col items-center justify-center gap-3 rounded-full
+           font-display font-bold text-white transition-all duration-200
+           active:scale-95 select-none;
+    width: 200px; height: 200px;
+    font-size: 1.1rem;
+    &:disabled { @apply opacity-60 cursor-not-allowed; }
+  }
+  .fichar-btn-entrada {
+    @apply fichar-btn;
+    background: linear-gradient(145deg, #6c63ff 0%, #4e46e0 100%);
+    box-shadow: 0 0 0 0 rgba(108,99,255,0.5), 0 8px 32px rgba(108,99,255,0.4);
+    &:not(:disabled):hover {
+      box-shadow: 0 0 0 16px rgba(108,99,255,0.1), 0 12px 40px rgba(108,99,255,0.5);
+      transform: translateY(-2px) scale(1.02);
+    }
+  }
+  .fichar-btn-salida {
+    @apply fichar-btn;
+    background: linear-gradient(145deg, #ff4d6d 0%, #cc2a48 100%);
+    box-shadow: 0 0 0 0 rgba(255,77,109,0.4), 0 8px 32px rgba(255,77,109,0.35);
+    &:not(:disabled):hover {
+      box-shadow: 0 0 0 16px rgba(255,77,109,0.1), 0 12px 40px rgba(255,77,109,0.4);
+      transform: translateY(-2px) scale(1.02);
+    }
+  }
+  .fichar-btn-descanso {
+    @apply fichar-btn;
+    background: linear-gradient(145deg, #ffb347 0%, #e8952a 100%);
+    box-shadow: 0 8px 32px rgba(255,179,71,0.35);
+    &:not(:disabled):hover { transform: translateY(-2px) scale(1.02); }
+  }
+  .fichar-btn-comida {
+    @apply fichar-btn;
+    background: linear-gradient(145deg, #00d4aa 0%, #00a882 100%);
+    box-shadow: 0 8px 32px rgba(0,212,170,0.35);
+    &:not(:disabled):hover { transform: translateY(-2px) scale(1.02); }
+  }
+
+  /* ── Timeline fichaje ── */
+  .fichaje-item {
+    @apply flex items-center gap-4 py-3 border-b border-surface-border last:border-b-0;
+  }
+  .fichaje-dot {
+    @apply w-10 h-10 rounded-2xl flex items-center justify-center text-lg flex-shrink-0;
+  }
+
+  /* ── Status pill ── */
+  .pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+    &-activo    { @apply bg-teal/15 text-teal border border-teal/25; }
+    &-pendiente { @apply bg-warning/15 text-warning border border-warning/25; }
+    &-aprobada  { @apply bg-teal/15 text-teal border border-teal/25; }
+    &-rechazada { @apply bg-danger/15 text-danger border border-danger/25; }
+    &-entrada        { @apply bg-brand/15 text-brand border border-brand/20; }
+    &-salida         { @apply bg-ink-muted/15 text-ink-dim border border-ink-muted/20; }
+    &-salida_comida  { @apply bg-warning/15 text-warning border border-warning/25; }
+    &-vuelta_comida  { @apply bg-teal/15 text-teal border border-teal/25; }
+    &-inicio_descanso{ @apply bg-warning/15 text-warning border border-warning/25; }
+    &-fin_descanso   { @apply bg-brand/15 text-brand border border-brand/20; }
+  }
+
+  /* ── Form inputs ── */
+  .inp {
+    @apply w-full bg-surface-raised border border-surface-border rounded-2xl
+           text-ink placeholder-ink-muted px-4 py-3.5 text-sm outline-none
+           transition-all duration-200 font-body;
+    &:focus { @apply border-brand ring-2 ring-brand/20; }
+  }
+  .inp-label { @apply block text-xs font-semibold text-ink-dim uppercase tracking-wider mb-2; }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 w-full py-4 rounded-2xl
+           bg-brand text-white font-display font-bold text-base shadow-glow-sm
+           transition-all duration-200 active:scale-95;
+    &:hover:not(:disabled) { @apply bg-brand-light shadow-glow; }
+    &:disabled { @apply opacity-60 cursor-not-allowed; }
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl
+           bg-surface-raised border border-surface-border text-ink text-sm font-medium
+           transition-all duration-200 active:scale-95;
+    &:hover { @apply bg-surface-border; }
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl
+           bg-danger/10 border border-danger/25 text-danger text-sm font-medium
+           transition-all duration-200 active:scale-95;
+  }
+
+  /* ── Avatar ── */
+  .avatar {
+    background: linear-gradient(135deg, #6c63ff, #00d4aa);
+    @apply rounded-full flex items-center justify-center font-display font-bold text-white flex-shrink-0;
+    &-sm  { @apply w-9 h-9 text-sm; }
+    &-md  { @apply w-12 h-12 text-base; }
+    &-lg  { @apply w-16 h-16 text-xl; }
+    &-xl  { @apply w-24 h-24 text-3xl; }
+  }
+
+  /* ── Spinner ── */
+  .spinner {
+    @apply rounded-full border-2 border-white/25 border-t-white animate-spin;
+    &-brand { @apply rounded-full border-2 border-brand/25 border-t-brand animate-spin; }
+  }
+
+  /* ── Sheet (bottom modal) ── */
+  .sheet-overlay {
+    @apply fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center animate-fade-in;
+  }
+  .sheet {
+    @apply w-full bg-surface-card rounded-t-4xl p-6 animate-slide-up;
+    max-width: 430px;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    .sheet-handle {
+      @apply w-12 h-1.5 bg-surface-border rounded-full mx-auto mb-5;
+    }
+  }
+}
+
+/* ── SweetAlert2 dark overrides ── */
+.swal2-popup {
+  background: #161820 !important;
+  border: 1px solid #2e3247 !important;
+  border-radius: 24px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  color: #f0f2ff !important;
+  max-width: 360px !important;
+  box-shadow: 0 20px 80px rgba(0,0,0,.7) !important;
+}
+.swal2-title { color: #f0f2ff !important; font-family: 'Syne', sans-serif !important; font-size: 1.2rem !important; }
+.swal2-html-container { color: #8b90a7 !important; font-size: 0.9rem !important; }
+.swal2-confirm {
+  background: #6c63ff !important; border-radius: 12px !important;
+  font-family: 'DM Sans', sans-serif !important; font-weight: 600 !important;
+  padding: 12px 24px !important;
+  &:hover { background: #8b84ff !important; }
+}
+.swal2-cancel {
+  background: #1e2130 !important; color: #f0f2ff !important;
+  border: 1px solid #2e3247 !important; border-radius: 12px !important;
+  font-family: 'DM Sans', sans-serif !important; padding: 12px 24px !important;
+}
+.swal2-icon.swal2-success .swal2-success-ring { border-color: rgba(0,212,170,.3) !important; }
+.swal2-icon.swal2-success [class^=swal2-success-line] { background: #00d4aa !important; }
+.swal2-timer-progress-bar { background: #6c63ff !important; }
